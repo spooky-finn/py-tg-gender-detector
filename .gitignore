@@ -1,0 +1,5 @@
+env/*
+*.pyc
+anon.session
+license.txt
+.DS_Store
