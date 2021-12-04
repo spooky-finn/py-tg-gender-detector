@@ -1,0 +1,6 @@
+[submodule "py_hardware_binding"]
+	path = py_hardware_binding
+	url = https://github.com/Massshhhaaa/py_hardware_binding.git
+[submodule "genderComputer"]
+	path = genderComputer
+	url = https://github.com/tue-mdse/genderComputer.git

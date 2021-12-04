@@ -1,17 +1,18 @@
-
 import uuid, re, os, sys
 from telethon import TelegramClient
 import asyncio
-from genderComputer import GenderComputer
+from gender_Computer.genderComputer import GenderComputer
 
 from cfg.cfg import *
-from src.check_license import checkLicense
+# from src.check_license import checkLicense
 from src.create_report import createReport
+
+from py_hardware_binding.main
 
 async def main(application_path, path_to_session):
     gc = GenderComputer()
     # pgi = input('Пожалуйста, выберите предпочинаемый пол (М или Ж) \n')
-    preferGender = 'female'
+    preferGender = 'male'
 
     # if  pgi == 'М' or pgi == 'м':
     #     preferGender = 'male'
@@ -91,7 +92,7 @@ async def main(application_path, path_to_session):
 
         # await client.run_until_disconnected()
 
-
+@
 def run(WORKDIR):
     
     """ Get absolute path to resource, works for dev and for PyInstaller """
