@@ -1,18 +1,18 @@
+
 import uuid, re, os, sys
 from telethon import TelegramClient
 import asyncio
-from gender_Computer.genderComputer import GenderComputer
+from gender_computer.genderComputer import GenderComputer
 
 from cfg.cfg import *
-# from src.check_license import checkLicense
 from src.create_report import createReport
 
-from py_hardware_binding.main
+from py_hardware_binding.main import authenticate
 
 async def main(application_path, path_to_session):
     gc = GenderComputer()
     # pgi = input('Пожалуйста, выберите предпочинаемый пол (М или Ж) \n')
-    preferGender = 'male'
+    preferGender = 'female'
 
     # if  pgi == 'М' or pgi == 'м':
     #     preferGender = 'male'
@@ -54,45 +54,7 @@ async def main(application_path, path_to_session):
         print(f"Report saved at {application_path}")
 
 
-
-
-        # print(len(participants))
-
-        # while i < 200000: 
-
-        #     a = await client(GetParticipantsRequest(channel, ChannelParticipantsSearch(''), i, 100, hash=0))
-        #     time.sleep(1)
-        #     i+=100
-        #     for user in a.users:
-        #         participants.append(user)
-        #     print(len(participants))
-        # participants =  await client.get_participants(channel.id)
-
-        # pic = client.download_media(participants.users[6].photo.photo_id, './')
-        # print(participants.users[6].photo)
-        # print(m.photo.photo_id.download_media("image/"+str(uuid.uuid1())))
-        # full =  await client(GetFullUserRequest(participants.users[6]))
-        # downloading images
-        # for i in range(0, 100):
-        #     fn, ln = participants.users[i].first_name or 'none', participants.users[i].last_name or 'none'
-        #     gender = gc.resolveGender(f'{fn} {ln}', 'Russia') or 'none'
-            # print(f"{fn: <20} {ln: <20} {gender: <20}")
-            # await client.download_profile_photo(participants.users[i].id)
-
-        # client.download_profile_photo('me')
-
-        # for e in participants.users:
-        #     print(e)
-        # await client.send_message('me', 'Hello, myself!')
-        # print(await client.download_profile_photo('me'))
-
-        # @client.on(events.NewMessage(pattern='(?i).*Hello'))
-        # async def handler(event):
-        #     await event.reply('Hey!')
-
-        # await client.run_until_disconnected()
-
-@
+@authenticate
 def run(WORKDIR):
     
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -109,8 +71,7 @@ def run(WORKDIR):
         application_path = WORKDIR
     
     
-    if checkLicense(path_to_license):
-        asyncio.run( main(
-            application_path, 
-            path_to_session
-            ))
+    asyncio.run( main(
+        application_path, 
+        path_to_session
+    ))
