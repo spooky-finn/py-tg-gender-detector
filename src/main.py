@@ -2,12 +2,13 @@
 import uuid, re, os, sys
 from telethon import TelegramClient
 import asyncio
-from gender_computer.genderComputer import GenderComputer
+
+from gender_computer import GenderComputer
 
 from cfg.cfg import *
 from src.create_report import createReport
 
-from py_hardware_binding.main import authenticate
+from py_hardware_binding import authenticate
 
 async def main(application_path, path_to_session):
     gc = GenderComputer()
