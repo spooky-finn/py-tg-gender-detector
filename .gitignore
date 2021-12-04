@@ -5,7 +5,6 @@ license.txt
 .DS_Store
 build/
 dist/
-run.spec
 male.txt
 male_id.txt
 female_id.txt
