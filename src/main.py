@@ -819,16 +819,13 @@ async def main(application_path, path_to_session):
         if target == 8:
             await gender_entrypoint(client, application_path, target)
         
-        if target == 9:
-            cExcluder = ContextExcluder(client, application_path, target)
-            await cExcluder.Include ()
+        cExcluder = ContextExcluder(client, application_path, target)
+        
+        if target == 9:  await cExcluder.Include ()
+        if target == 10: await cExcluder.FullUserIncluder()
+        if target == 11: await cExcluder.Exclude()
             
-        if target == 10:
-            cExcluder = ContextExcluder(client, application_path, target)
-            await cExcluder.Exclude()
-       
-
-# @authenticate
+@authenticate
 def run(WORKDIR):
     
     """ Get absolute path to resource, works for dev and for PyInstaller """

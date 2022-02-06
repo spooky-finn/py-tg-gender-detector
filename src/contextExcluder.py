@@ -1,4 +1,6 @@
-from email.mime import application
+from telethon.sync import TelegramClient
+from telethon import functions, types
+
 from .tgparser import Tgparser
 from .fstream import Fstream
 import re
@@ -12,7 +14,7 @@ class ContextExcluder:
     async def Include(self):
         parser = Tgparser(self.client)
         fstream = Fstream(self.application_path)
-        participants = await parser.GetChatParticipants("https://t.me/algoritm_schools")
+        participants = await parser.GetChatParticipants()
         wordlist = fstream.fread_by_line( self.application_path + '/wordlist.txt')
         target_participants = []
         
@@ -39,7 +41,7 @@ class ContextExcluder:
     async def Exclude(self):
         parser = Tgparser(self.client)
         fstream = Fstream(self.application_path)
-        participants = await parser.GetChatParticipants("https://t.me/algoritm_schools")
+        participants = await parser.GetChatParticipants()
         wordlist = fstream.fread_by_line( self.application_path + '/wordlist.txt')
         target_participants = []
         
@@ -50,7 +52,6 @@ class ContextExcluder:
             for dd in [user.first_name, user.last_name, user.username]:
                 if not isinstance(dd, str): continue
                 userdata += re.split('_|-| ', dd)
-                
             # userdata - это массив, содержащий раздробеннуб информацию об аккаунте
             have_kword = False
             
@@ -65,3 +66,42 @@ class ContextExcluder:
         print("key-words: ", wordlist)                
         # for user in target_participants: print(user.first_name, user.last_name, f'@{user.username}')
 
+    async def FullUserIncluder(self):
+        parser = Tgparser(self.client)
+        fstream = Fstream(self.application_path)
+        participants = await parser.GetChatParticipants()
+        wordlist = fstream.fread_by_line( self.application_path + '/wordlist.txt')
+        target_participants = []
+        
+        fullInfoParticipants = []
+        print('Этот процесс может занять весьма весьма много времени из-за ограничений телеграма :_')
+        for user in participants:
+            result = await self.client(functions.users.GetFullUserRequest( id = user.id ))
+            fullInfoParticipants.append(result)
+            print("Собрано", len(fullInfoParticipants), 'аккаунтов из', len(participants), end='\r')
+            if len(fullInfoParticipants) > 300: break
+        print('')            
+        
+        for user in fullInfoParticipants:            
+            about = user.about
+            user = user.user
+            if not user.first_name and not user.last_name: continue
+            
+            userdata = []
+            for dd in [user.first_name, user.last_name, user.username, about]:
+                if not isinstance(dd, str): continue
+                userdata += re.split('_|-| ', dd)
+                
+            # userdata - это массив, содержащий раздробеннуб информацию об аккаунте
+            have_kword = False
+            
+            for keyword in wordlist:
+                for element in userdata:
+                    if keyword.lower() in element.lower(): have_kword = True
+                    
+            if have_kword: target_participants.append(user)
+
+                    
+        fstream.create_dual_report(self.target_prefix, 'full_bio_include', target_participants)     
+        print("key-words: ", wordlist)                
+        # for user in target_participants: print(user.first_name, user.last_name, f'@{user.username}')

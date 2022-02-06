@@ -5,12 +5,13 @@ class Tgparser:
     def __init__(self, client) -> None:
         self.client = client
       
-    async def GetChatParticipants(self, chat_url):
+    async def GetChatParticipants(self, chat_url=''):
         limit_user = None  # максимальное число записей, передаваемых за один раз
         all_participants = []
         
-        chat_url = "https://t.me/algoritm_schools"
-        if not chat_url: chat_url = input('Cсылка на чат:')
+        # chat_url = "https://t.me/algoritm_schools"
+        if not chat_url: chat_url = input('Cсылка на чат: ')
+        
         chat = await self.client.get_entity(chat_url)
         print("Чат: ", chat.title)
         
