@@ -7,7 +7,7 @@ block_cipher = None
 added_files = [
     ( 'cfg/anon.session', 'cfg/' ),
     ( 'gender_computer/', '.' ),
-    ( 'py_hardware_binding/license.txt', 'py_hardware_binding/' )
+    ( 'py_hardware_binding/license.txt', 'py_hardware_binding/' ),
 ]
 
 a = Analysis(['run.py'],
@@ -32,7 +32,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,  
           [],
-          name='run',
+          name='AMOS_Telegram_Parser',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -43,4 +43,5 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
+          icon='baddrip.ico',
           entitlements_file=None )
