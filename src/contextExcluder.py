@@ -6,6 +6,7 @@ from .fstream import Fstream
 from .tgparser import Tgparser
 
 
+# Класс для работы с ключевыми словами, заданными пользователем в файле wordlist.txt
 class ContextExcluder:
     def __init__(self, client, application_path, target_prefix) -> None:
         self.client = client
@@ -13,6 +14,13 @@ class ContextExcluder:
         self.target_prefix = target_prefix
 
     async def Include(self):
+        '''
+        Метод получит всех участников чата, используя класс Tgparser
+        и вернет только тех, у кого в ФИО или username входят ключевые слова
+        
+        Ключевые слова должны быть максимально короткими по корню, без оканчания.
+        К примеру, если мы желаем забрать только таргетологов, то ключевое слово должно быть "таргет"
+        '''
         parser = Tgparser(self.client)
         fstream = Fstream(self.application_path)
         participants = await parser.GetChatParticipants()
@@ -50,6 +58,12 @@ class ContextExcluder:
         # for user in target_participants: print(user.first_name, user.last_name, f'@{user.username}')
 
     async def Exclude(self):
+        '''
+        Метод аналогично Include получит всех участников чата, используя класс Tgparser
+        и вернет только тех, у кого в ФИО или username НЕ входят ключевые слова
+        
+        Позволяет собрать аудиторию без бизнес аккаунтов.
+        '''
         parser = Tgparser(self.client)
         fstream = Fstream(self.application_path)
         participants = await parser.GetChatParticipants()
@@ -88,6 +102,10 @@ class ContextExcluder:
         # for user in target_participants: print(user.first_name, user.last_name, f'@{user.username}')
 
     async def FullUserIncluder(self):
+        '''
+        Метод схож с методом Include, однако единственное отличие заключается в том,
+        что поиск ведется еще и по bio пользователя. Ввиду ограничений телеграма это занимает невероятное количество времени
+        '''
         parser = Tgparser(self.client)
         fstream = Fstream(self.application_path)
         participants = await parser.GetChatParticipants()

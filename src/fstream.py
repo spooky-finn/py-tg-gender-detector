@@ -2,6 +2,7 @@ import os
 from array import array
 
 
+# Класс для работы с файлами и создания отчетов
 class Fstream:
     def __init__(self, application_path) -> None:
         self.reports_path = os.path.join(application_path, "reports")
@@ -13,6 +14,9 @@ class Fstream:
         pass
 
     def fread_by_line(self, path) -> array:
+        '''
+        Принимет путь до файла и возвращает массив, где элементами являются строчки
+        '''
         if not os.path.isfile(path):
             with open(path, "w") as fp:
                 pass
@@ -24,6 +28,10 @@ class Fstream:
             return data
 
     def create_dual_report(self, target, filename, participants):
+        '''
+        Cоздает два файла: первый со списком людей у которых есть username,
+        второй - с id, для тех людей, которые юзернейм не поставили.
+        '''
         with_username = []
         without_username = []
 
